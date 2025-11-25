@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MyMauiApp.NewCoursePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="White">
+
+    <Grid>
+        <Image Source="bg_waves.png"
+               Aspect="AspectFill" />
+
+        <Grid Padding="20,40,20,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Шапка -->
+            <Label Grid.Row="0"
+                   Text="🍫 Nowy kurs"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   BackgroundColor="White"
+                   TextColor="Black"
+                   HorizontalOptions="Center"
+                   Padding="16,8" />
+
+            <ScrollView Grid.Row="1" Margin="0,24,0,0">
+                <VerticalStackLayout Spacing="12">
+
+                    <Entry x:Name="CourseTitleEntry"
+                           Placeholder="Nazwa kursu"
+                           FontSize="14"
+                           TextColor="Black" />
+
+                    <Editor x:Name="CourseDescriptionEditor"
+                            Placeholder="Opis"
+                            FontSize="14"
+                            AutoSize="TextChanges"
+                            TextColor="Black" />
+
+                    <Entry x:Name="CourseLanguageEntry"
+                           Placeholder="Język programowania"
+                           FontSize="14"
+                           TextColor="Black" />
+
+                    <Entry x:Name="CourseLessonsEntry"
+                           Placeholder="Ilość lekcji"
+                           Keyboard="Numeric"
+                           FontSize="14"
+                           TextColor="Black" />
+
+                    <Button Text="DODAJ KURS"
+                            BackgroundColor="#002060"
+                            TextColor="White"
+                            CornerRadius="24"
+                            HeightRequest="50"
+                            Margin="0,16,0,0"
+                            Clicked="OnCreateCourseClicked" />
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

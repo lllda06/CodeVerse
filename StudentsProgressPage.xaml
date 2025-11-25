@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MyMauiApp.StudentsProgressPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="White">
+
+    <Grid>
+        <!-- Фон -->
+        <Image
+            Source="bg_waves.png"
+            Aspect="AspectFill" />
+
+        <Grid Padding="20,40,20,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок -->
+            <Label Grid.Row="0"
+                   Text="Postępy uczniów"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   BackgroundColor="White"
+                   TextColor="Black"
+                   HorizontalOptions="Center"
+                   Padding="16,8" />
+
+            <!-- Карточка курса -->
+            <Frame Grid.Row="1"
+                   Padding="12"
+                   CornerRadius="20"
+                   BackgroundColor="White"
+                   BorderColor="Black"
+                   HasShadow="False"
+                   Margin="0,16,0,12">
+                <HorizontalStackLayout Spacing="10">
+                    <Image Source="python_icon.png"
+                           HeightRequest="32"
+                           WidthRequest="32" />
+                    <VerticalStackLayout>
+                        <Label x:Name="CourseTitleLabel"
+                               Text="Python Development"
+                               FontSize="15"
+                               FontAttributes="Bold" />
+                        <Label Text="34 wykłady | 28 uczniów"
+                               FontSize="12"
+                               TextColor="#555" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Frame>
+
+            <!-- Таблица прогресса на основе CollectionView -->
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" /> <!-- заголовки -->
+                    <RowDefinition Height="*" />    <!-- список -->
+                </Grid.RowDefinitions>
+
+                <!-- Шапка колонок -->
+                <Grid Grid.Row="0"
+                      ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="Uczeń"
+                           FontAttributes="Bold"
+                           Grid.Column="0" />
+                    <Label Text="% postępu"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="End"
+                           Grid.Column="1" />
+                </Grid>
+
+                <!-- Список студентов -->
+                <CollectionView
+                    Grid.Row="1"
+                    ItemsSource="{Binding Students}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="6"
+                                   CornerRadius="16"
+                                   BorderColor="Black"
+                                   HasShadow="False"
+                                   Margin="0,4,0,4">
+                                <Grid ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Имя ученика -->
+                                    <Label Text="{Binding StudentName}"
+                                           Grid.Column="0" />
+
+                                    <!-- Процент (строкой, напр. '82%') -->
+                                    <Label Text="{Binding PercentText}"
+                                           Grid.Column="1"
+                                           HorizontalTextAlignment="End" />
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MyMauiApp.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="White">
+    
+    <Grid>
+
+        <!-- Tło -->
+        <Image
+            Source="bg_waves.png"
+            Aspect="AspectFill"
+            Opacity="1" />
+
+
+        <Grid Padding="24,32,24,28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- U góry: logo szkoły -->
+        <Image
+            Source="zsm_logo.png"
+            HorizontalOptions="End"
+            HeightRequest="80" />
+
+        <!-- Środek: tekst i obraz -->
+        <VerticalStackLayout
+            Grid.Row="1" 
+            Spacing="16"
+            Margin="0,4,0,0"
+            VerticalOptions="Start">
+            <Label
+                Text="CodeVerse"
+                FontSize="32"
+                FontAttributes="Bold"
+                TextColor="Black"
+                Margin="0,90,0,0"/>
+
+            <Label
+                Text="by ZSM Nr 3 w Krakowie"
+                FontSize="16"
+                TextColor="#444" 
+                Margin="0,0,0,6"/>
+
+            <Label
+                Text="🚀 „Twoja przestrzeń do nauki programowania.”"
+                FontSize="14"
+                TextColor="#222" />
+
+            <Label
+                Text="🎓 „ZSM uczy kodu – CodeVerse łączy wiedzę.”"
+                FontSize="14"
+                TextColor="#222" />
+
+            <!-- ilustracja dziewczyny z książką -->
+            <Image
+                Source="student_book.png"
+                HeightRequest="220"
+                Aspect="AspectFit"
+                HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- Dół: przycisk „Dalej” -->
+        <Button
+            Grid.Row="2"
+            Text="Dalej  >"
+            BackgroundColor="Black"
+            TextColor="White"
+            CornerRadius="24"
+            HeightRequest="50"
+            HorizontalOptions="Fill"
+            Clicked="OnNextClicked" />
+    </Grid>
+        </Grid>
+
+</ContentPage>

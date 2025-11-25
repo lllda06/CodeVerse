@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MyMauiApp.AddMaterialPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="White">
+
+    <Grid>
+        <!-- Фон -->
+        <Image
+            Source="bg_waves.png"
+            Aspect="AspectFill" />
+
+        <!-- Контент -->
+        <Grid Padding="20,40,20,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок -->
+            <Label
+                Grid.Row="0"
+                Text="📚 Dodaj materiał"
+                FontSize="20"
+                FontAttributes="Bold"
+                BackgroundColor="White"
+                TextColor="Black"
+                HorizontalOptions="Center"
+                Padding="16,8" />
+
+            <!-- Форма добавления материала -->
+            <ScrollView Grid.Row="1" Margin="0,24,0,0">
+                <VerticalStackLayout Spacing="12">
+
+                    <!-- Название материала -->
+                    <Label
+                        Text="Tytuł materiału"
+                        FontSize="13"
+                        TextColor="#444" />
+
+                    <Entry
+                        x:Name="MaterialTitleEntry"
+                        Placeholder="Tytuł"
+                        FontSize="14"
+                        TextColor="Black" />
+
+                    <!-- Тип материала -->
+                    <Label
+                        Text="Typ materiału"
+                        FontSize="13"
+                        TextColor="#444" />
+
+                    <!-- Можно оставить Picker, но имя поля именно MaterialTypeEntry -->
+                    <Picker
+                        x:Name="MaterialTypeEntry"
+                        Title="Typ materiału"
+                        FontSize="14">
+                        <Picker.Items>
+                            <x:String>Prezentacja</x:String>
+                            <x:String>PDF / notatki</x:String>
+                            <x:String>Wideo</x:String>
+                            <x:String>Link do strony</x:String>
+                            <x:String>Zadanie domowe</x:String>
+                        </Picker.Items>
+                    </Picker>
+
+                    <!-- Описание материала -->
+                    <Label
+                        Text="Opis materiału"
+                        FontSize="13"
+                        TextColor="#444" />
+
+                    <Editor
+                        x:Name="MaterialDescriptionEntry"
+                        Placeholder="Krótki opis materiału"
+                        FontSize="14"
+                        TextColor="Black"
+                        AutoSize="TextChanges"
+                        HeightRequest="100" />
+
+                    <!-- URL / ссылка или путь к файлу -->
+                    <Label
+                        Text="Adres URL / link do materiału"
+                        FontSize="13"
+                        TextColor="#444" />
+
+                    <Entry
+                        x:Name="MaterialUrlEntry"
+                        Placeholder="https://… lub ścieżka do pliku"
+                        FontSize="14"
+                        TextColor="Black" />
+
+                    <!-- (опционально) кнопка выбора файла, если захочешь заполнять MaterialUrlEntry из файловой системы -->
+                    <Button
+                        Text="Przeglądaj plik"
+                        BackgroundColor="Black"
+                        TextColor="White"
+                        CornerRadius="20"
+                        HeightRequest="44"
+                        Clicked="OnBrowseFileClicked" />
+
+                    <!-- Кнопка сохранить -->
+                    <Button
+                        Text="DODAJ MATERIAŁ"
+                        BackgroundColor="#002060"
+                        TextColor="White"
+                        CornerRadius="24"
+                        HeightRequest="50"
+                        Margin="0,16,0,0"
+                        Clicked="OnAddMaterialClicked" />
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

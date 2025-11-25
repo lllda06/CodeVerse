@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MyMauiApp.TeacherRegisterPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="White">
+
+    <Grid>
+
+        <!-- Фон -->
+        <Image
+            Source="bg_waves.png"
+            Aspect="AspectFill" />
+
+        <!-- Контент -->
+        <Grid Padding="24,40,24,32">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />  <!-- логотип -->
+                <RowDefinition Height="*" />     <!-- форма -->
+                <RowDefinition Height="Auto" />  <!-- низ -->
+            </Grid.RowDefinitions>
+
+            <!-- Лого -->
+            <Image
+                Grid.Row="0"
+                Source="zsm_logo.png"
+                HorizontalOptions="End"
+                HeightRequest="64"
+                Margin="0,0,0,12" />
+
+            <!-- Форма -->
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Spacing="12">
+
+                    <Label
+                        Text="Rejestracja nauczyciela"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        Margin="0,0,0,6" />
+
+                    <Label
+                        Text="Dołącz do Kodowej Katedry i zarządzaj lekcjami, zadaniami oraz postępami uczniów w jednym miejscu."
+                        FontSize="13"
+                        TextColor="#444"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Margin="0,0,0,12" />
+
+                    <!-- Имя учителя -->
+                    <Entry
+                        x:Name="TeacherNameEntry"
+                        Placeholder="Imię i nazwisko nauczyciela"
+                        Margin="0,8"
+                        BackgroundColor="White"
+                        TextColor="Black" />
+
+                    <!-- Email -->
+                    <Entry
+                        x:Name="TeacherEmailEntry"
+                        Placeholder="Email"
+                        Keyboard="Email"
+                        Margin="0,8"
+                        BackgroundColor="White"
+                        TextColor="Black" />
+
+                    <!-- Пароль -->
+                    <Entry
+                        x:Name="TeacherPasswordEntry"
+                        Placeholder="Hasło"
+                        IsPassword="True"
+                        Margin="0,8"
+                        BackgroundColor="White"
+                        TextColor="Black" />
+
+
+                    <Entry
+                        Placeholder="Powtórz hasło"
+                        FontSize="14"
+                        IsPassword="True"
+                        TextColor="Black" />
+
+                    <Entry
+                        Placeholder="Kod szkoły / klasy (opcjonalnie)"
+                        FontSize="14"
+                        TextColor="Black" />
+
+                    <HorizontalStackLayout Spacing="8" Margin="0,6,0,0">
+                        <CheckBox x:Name="IsZsmTeacherCheckBox" />
+                        <Label
+                            Text="Jestem nauczycielem w ZSM Nr 3 w Krakowie."
+                            FontSize="12"
+                            TextColor="#333"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <Button
+        Text="Zarejestruj się"
+        CornerRadius="24"
+        BackgroundColor="Black"
+        TextColor="White"
+        HeightRequest="48"
+        Clicked="OnTeacherRegisterClicked" />
+
+                    <Label
+                        Text="Masz już konto? Zaloguj się"
+                        FontSize="12"
+                        TextColor="#333"
+                        HorizontalOptions="Center"
+                        Margin="0,8,0,0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnGoToLoginTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <!-- Низ можно оставить пустым или под инфо/копирайт -->
+        </Grid>
+    </Grid>
+</ContentPage>

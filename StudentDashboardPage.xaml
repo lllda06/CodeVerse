@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MyMauiApp.StudentDashboardPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="White"
+    Padding="0">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Фоновые волны на весь экран -->
+        <Image Source="bg_waves.png"
+               Aspect="AspectFill"
+               Opacity="0.25"
+               Grid.RowSpan="2" />
+
+        <!-- ЧЁРНАЯ ВЕРХНЯЯ ПАНЕЛЬ -->
+        <Grid Grid.Row="0">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" />
+            </Grid.Background>
+
+            <Grid Padding="20,40,20,24"
+                  RowDefinitions="Auto,Auto"
+                  RowSpacing="16">
+
+                <!-- Верхняя строка: меню, заголовок, колокольчик -->
+                <Grid Grid.Row="0"
+                      ColumnDefinitions="Auto,*,Auto"
+                      ColumnSpacing="12">
+
+                    <!-- Меню -->
+                    <Label Text="☰"
+                           FontSize="22"
+                           TextColor="White"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Start" />
+
+                    <!-- Заголовок -->
+                    <Label Grid.Column="1"
+                           Text="Wszystkie kursy"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+
+                    <!-- Уведомления -->
+                    <Label Grid.Column="2"
+                           Text="🔔"
+                           FontSize="22"
+                           TextColor="Gold"
+                           VerticalOptions="Center"
+                           HorizontalOptions="End" />
+                </Grid>
+
+                <!-- Карточка с инфо -->
+                <Frame Grid.Row="1"
+                       CornerRadius="24"
+                       Padding="12"
+                       BackgroundColor="White"
+                       HasShadow="False">
+
+                    <Grid ColumnDefinitions="Auto,*"
+                          ColumnSpacing="12">
+
+                        <!-- Аватар -->
+                        <Frame WidthRequest="48"
+                               HeightRequest="48"
+                               CornerRadius="24"
+                               Padding="0"
+                               BackgroundColor="#E5EBFF"
+                               HasShadow="False"
+                               HorizontalOptions="Start"
+                               VerticalOptions="Center">
+                            <Label Text="👤"
+                                   FontSize="24"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Frame>
+
+                        <!-- Имя + инфо о курсах -->
+                        <VerticalStackLayout Grid.Column="1"
+                                             Spacing="2"
+                                             VerticalOptions="Center">
+                            <!-- Имя студента -->
+                            <Label x:Name="StudentNameLabel"
+                                   Text="Imię studenta"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="Black" />
+
+                            <!-- Текст про количество курсов -->
+                            <Label x:Name="CoursesInfoLabel"
+                                   Text="0 kursów, na które jesteś zapisany"
+                                   FontSize="13"
+                                   TextColor="#555555" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+            </Grid>
+        </Grid>
+
+        <!-- НИЖНЯЯ ЧАСТЬ: СПИСОК КУРСОВ -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding StudentCourses}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame CornerRadius="26"
+                           Padding="14,10"
+                           BackgroundColor="White"
+                           BorderColor="Black"
+                           HasShadow="False"
+                           Margin="20,8,20,0">
+
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnCourseTapped"
+                                                  CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="Auto,*,Auto"
+                              ColumnSpacing="12">
+
+                            <!-- Иконка курса -->
+                            <Frame WidthRequest="40"
+                                   HeightRequest="40"
+                                   CornerRadius="20"
+                                   Padding="4"
+                                   HasShadow="False"
+                                   BackgroundColor="{Binding IconBackground}"
+                                   VerticalOptions="Center">
+                                <Image Source="{Binding Icon}"
+                                       Aspect="AspectFit" />
+                            </Frame>
+
+                            <!-- Название и подпись -->
+                            <VerticalStackLayout Grid.Column="1"
+                                                 Spacing="2"
+                                                 VerticalOptions="Center">
+                                <Label Text="{Binding Title}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="Black" />
+                                <Label Text="{Binding Subtitle}"
+                                       FontSize="12"
+                                       TextColor="#555555" />
+                            </VerticalStackLayout>
+
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

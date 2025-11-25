@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MyMauiApp.StudentCoursePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
+
+    <!-- Вся страница делится на 2 ряда:
+         0 – чёрный хедер,
+         1 – контент курса с фоном -->
+    <Grid RowDefinitions="Auto,*"
+          RowSpacing="0">
+
+        <!-- ЧЁРНЫЙ ХЕДЕР СРАЗУ ОТ ВЕРХА -->
+        <Grid Grid.Row="0"
+              BackgroundColor="Black"
+              Padding="24,32,24,16">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Кнопка «назад» -->
+            <ImageButton
+                Source="back_icon.png"
+                WidthRequest="20"
+                HeightRequest="20"
+                BackgroundColor="Transparent"
+                Clicked="OnBackTapped" />
+
+            <!-- Заголовок -->
+            <Label Grid.Column="1"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Text="Panel wybranego kursu"
+                   TextColor="White"
+                   FontSize="16"
+                   FontAttributes="Bold" />
+
+            <!-- Иконка профиля -->
+            <Image Grid.Column="2"
+                   Source="user_icon.png"
+                   WidthRequest="22"
+                   HeightRequest="22"
+                   HorizontalOptions="End"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <!-- КОНТЕНТ КУРСА -->
+        <Grid Grid.Row="1">
+            <!-- Фоновые волны -->
+            <Image Source="bg_waves.png"
+                   Aspect="AspectFill" />
+
+            <ScrollView>
+                <VerticalStackLayout
+                    Padding="24,16,24,32"
+                    Spacing="16">
+
+                    <!-- Карточка курса + прогресс -->
+                    <Frame CornerRadius="26"
+                           Padding="16,12"
+                           BackgroundColor="White"
+                           BorderColor="Black"
+                           HasShadow="False">
+
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Spacing="2">
+                                <!-- НАЗВАНИЕ КУРСА -->
+                                <Label x:Name="CourseTitleLabel"
+                                       Text="Nazwa kursu"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="Black" />
+                                <!-- ИНФО О ЛЕКЦИЯХ -->
+                                <Label x:Name="LessonsInfoLabel"
+                                       Text="Wykład X z Y"
+                                       FontSize="12"
+                                       TextColor="#555555" />
+                            </VerticalStackLayout>
+
+                            <!-- Процент завершения -->
+                            <Frame Grid.Column="1"
+                                   WidthRequest="60"
+                                   HeightRequest="60"
+                                   CornerRadius="30"
+                                   BorderColor="Black"
+                                   BackgroundColor="White"
+                                   HasShadow="False"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center">
+                                <Label x:Name="ProgressPercentLabel"
+                                       Text="0%"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="Black" />
+                            </Frame>
+                        </Grid>
+                    </Frame>
+
+                    <!-- СПИСОК МАТЕРИАЛОВ КУРСА -->
+                    <CollectionView
+                        ItemsSource="{Binding Materials}"
+                        SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame CornerRadius="26"
+                                       Padding="16,12"
+                                       BackgroundColor="White"
+                                       BorderColor="Black"
+                                       HasShadow="False"
+                                       Margin="0,4,0,4">
+
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Tapped="OnMaterialTapped"
+                                            CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <!-- Название материала -->
+                                        <Label Text="{Binding Title}"
+                                               FontSize="14"
+                                               TextColor="Black"
+                                               VerticalOptions="Center" />
+                                        <!-- Иконка "play" справа -->
+                                        <Image Grid.Column="1"
+                                               Source="play_icon.png"
+                                               WidthRequest="16"
+                                               HeightRequest="16"
+                                               HorizontalOptions="End"
+                                               VerticalOptions="Center" />
+                                    </Grid>
+
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>
