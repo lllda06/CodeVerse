@@ -1,15 +1,14 @@
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using MyMauiApp.Models;
 using MyMauiApp.Services;
+using System.Collections.ObjectModel;
+using Microsoft.Maui.ApplicationModel; // для Launcher
 
 namespace MyMauiApp;
 
 public partial class StudentCoursePage : ContentPage
 {
     private readonly Guid _courseId;
-    private Course _course = null!;
+    private Course _course;
     private Enrollment? _enrollment;
 
     public ObservableCollection<MaterialItem> Materials { get; } = new();
@@ -28,16 +27,16 @@ public partial class StudentCoursePage : ContentPage
         var data = AppData.Instance;
         var current = data.CurrentUser!;
         _course = data.Courses.First(c => c.Id == _courseId);
-        _enrollment = data.GetEnrollment(_courseId, current.Id);
 
-        // наполняем список материалов
+        // обеспечиваем наличие записи о зачислении
+        _enrollment = data.EnsureEnrollment(_courseId, current.Id);
+
         Materials.Clear();
         foreach (var m in _course.Materials)
             Materials.Add(m);
 
-        // заполняем шапку
         CourseTitleLabel.Text = _course.Title;
-        LessonsInfoLabel.Text = $"Wykład {_course.Materials.Count} z {_course.LessonsCount}";
+        LessonsInfoLabel.Text = $"Wykład {Materials.Count} z {_course.LessonsCount}";
 
         UpdateProgress();
     }
@@ -50,16 +49,37 @@ public partial class StudentCoursePage : ContentPage
         ProgressPercentLabel.Text = $"{percent:0}%";
     }
 
-    private void OnMaterialTapped(object sender, TappedEventArgs e)
+    // 👉 здесь открываем материал
+    private async void OnMaterialTapped(object sender, TappedEventArgs e)
     {
-        if (e.Parameter is MaterialItem material && _enrollment != null)
-        {
-            AppData.Instance.ToggleMaterialCompleted(
-                material.CourseId,
-                material.Id,
-                _enrollment.StudentId);
+        if (e.Parameter is not MaterialItem material || _enrollment == null)
+            return;
 
-            UpdateProgress();
+        // 1. переключаем "выполнено/не выполнено"
+        AppData.Instance.ToggleMaterialCompleted(material.CourseId, material.Id, _enrollment.StudentId);
+        UpdateProgress();
+
+        // 2. пробуем открыть сам материал
+        if (!string.IsNullOrWhiteSpace(material.Url))
+        {
+            try
+            {
+                // если это http/https — откроется в браузере
+                await Launcher.OpenAsync(material.Url);
+            }
+            catch
+            {
+                await DisplayAlert("Błąd", "Nie można otworzyć materiału (link jest nieprawidłowy).", "OK");
+            }
+        }
+        else
+        {
+            // если ссылки нет — показать инфу
+            var text = string.IsNullOrWhiteSpace(material.Description)
+                ? "Brak dodatkowych informacji."
+                : material.Description;
+
+            await DisplayAlert(material.Title, text, "OK");
         }
     }
 

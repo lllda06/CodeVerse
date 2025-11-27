@@ -4,9 +4,22 @@ using System.Collections.ObjectModel;
 
 namespace MyMauiApp;
 
+// Модель строки для панели ученика
+public class StudentCourseRow
+{
+    public Course Course { get; set; } = null!;
+    public bool IsEnrolled { get; set; }
+
+    public string StatusText =>
+        IsEnrolled ? "Zapisany na kurs" : "Nie zapisany";
+
+    public string ActionText =>
+        IsEnrolled ? "Otwórz" : "Zapisz się";
+}
+
 public partial class StudentDashboardPage : ContentPage
 {
-    public ObservableCollection<Course> StudentCourses { get; } = new();
+    public ObservableCollection<StudentCourseRow> AllCourses { get; } = new();
 
     public StudentDashboardPage()
     {
@@ -17,32 +30,59 @@ public partial class StudentDashboardPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        LoadData();
+    }
 
-        StudentCourses.Clear();
+    private void LoadData()
+    {
+        var data    = AppData.Instance;
+        var current = data.CurrentUser;
 
-        var current = AppData.Instance.CurrentUser;
         if (current == null || current.Role != UserRole.Student)
             return;
 
-        var courses = AppData.Instance.GetCoursesForCurrentStudent();
-        foreach (var c in courses)
-            StudentCourses.Add(c);
+        // имя ученика
+        StudentNameLabel.Text = current.Name;
 
-        // имя в шапке
-        if (StudentNameLabel != null)
-            StudentNameLabel.Text = current.Name;
+        AllCourses.Clear();
 
-        // инфо по количеству курсов
-        if (CoursesInfoLabel != null)
-            CoursesInfoLabel.Text =
-                $"{StudentCourses.Count} kursów, na które jesteś zapisany";
+        foreach (var c in data.Courses)
+        {
+            bool enrolled = data.IsStudentEnrolled(current.Id, c.Id);
+
+            AllCourses.Add(new StudentCourseRow
+            {
+                Course     = c,
+                IsEnrolled = enrolled
+            });
+        }
     }
 
-    private async void OnCourseTapped(object sender, TappedEventArgs e)
+    // Кнопка "Zapisz się" / "Otwórz"
+    private async void OnCourseActionClicked(object sender, EventArgs e)
     {
-        if (e.Parameter is Course course)
+        var data    = AppData.Instance;
+        var current = data.CurrentUser;
+
+        if (current == null || current.Role != UserRole.Student)
+            return;
+
+        if (sender is not Button btn || btn.CommandParameter is not StudentCourseRow row)
+            return;
+
+        if (!row.IsEnrolled)
         {
-            await Navigation.PushAsync(new StudentCoursePage(course.Id));
+            // Подписываем студента на курс
+            data.EnrollStudent(current.Id, row.Course.Id);
+            await data.SaveAsync();
+
+            // Перезагружаем список, чтобы обновить статусы и кнопки
+            LoadData();
+        }
+        else
+        {
+            // Уже записан — открываем курс
+            await Navigation.PushAsync(new StudentCoursePage(row.Course.Id));
         }
     }
 }

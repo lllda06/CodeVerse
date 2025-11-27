@@ -50,6 +50,9 @@
                            FontSize="14"
                            TextColor="Black" />
 
+                    <!-- Иконка для выбранного языка -->
+                    <Image x:Name="LanguageIcon" WidthRequest="50" HeightRequest="50" HorizontalOptions="Center"/>
+
                     <Button Text="DODAJ KURS"
                             BackgroundColor="#002060"
                             TextColor="White"
